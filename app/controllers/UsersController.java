@@ -59,6 +59,8 @@ public class UsersController extends Controller {
 		}
 
 		// parse the json string into object
+
+		//add iterator pattern
 		for (int i = 0; i < usersNode.size(); i++) {
 			JsonNode json = usersNode.path(i);
 			User oneUser = new User();
