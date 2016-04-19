@@ -35,7 +35,7 @@ import models.PublicationTopic;
 import models.PublicationTopicKeyword;
 import models.Publications;
 import models.User;
-
+import javax.inject.Singleton;
 import utils.FormatCheck;
 @Singleton
 public class PublicationController extends Controller {
