@@ -1,34 +1,73 @@
 package controllers;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-
-import models.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.ServiceConfigurationItem;
+import models.ServiceExecutionLog;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import utils.*;
+import utils.Constants;
+import utils.RESTfulCalls;
 import utils.RESTfulCalls.ResponseType;
-import views.html.*;
+import views.html.searchServiceLog;
+import views.html.searchServiceLogResult;
+import views.html.serviceDetail;
+import views.html.serviceLog;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ServiceExecutionLogController extends Controller {
 	
 	final static Form<ServiceExecutionLog> serviceLogForm = Form
 			.form(ServiceExecutionLog.class);
+	final static Map<String, String> LOOK_UP_TABLE = Collections.unmodifiableMap(new HashMap<String, String>(){
+		{
+			put("Air Temperature", "ta");
+			put("Cloud Ice Water Content", "cli");
+			put("Cloud Liquid Water Content", "clw");
+			put("Eastward Near-Surface Wind", "uas");
+			put("Equivalent Water Height Over Land", "zl");
+			put("Equivalent Water Height Over Ocean", "zo");
+			put("Leaf Area Index", "lai");
+			put("Near-Surface Air Temperature", "tas");
+			put("Near-Surface Relative Humidity", "hurs");
+			put("Near-Surface Wind Speed", "sfcWind");
+			put("Northward Near-Surface Wind", "vas");
+			put("Ocean Heat Content Anomaly within 2000 m Depth", "ohc2000");
+			put("Ocean Heat Content Anomaly within 700 m Depth", "ohc700");
+			put("Ocean Salinity", "os");
+			put("Ocean Temperature", "ot");
+			put("Precipitation Flux", "pr");
+			put("Relative Humidity", "hur");
+			put("Sea Surface Height", "zos");
+			put("Sea Surface Temperature", "tos");
+			put("Specific Humidity", "hus");
+			put("Surface Downwelling Clear-Sky Longwave Radiation", "rldscs");
+			put("Surface Downwelling Clear-Sky Shortwave Radiation", "rsdscs");
+			put("Surface Downwelling Longwave Radiation", "rlds");
+			put("Surface Downwelling Shortwave Radiation", "rsds");
+			put("Surface Temperature", "ts");
+			put("Surface Upwelling Clear-Sky Shortwave Radiation", "rsuscs");
+			put("Surface Upwelling Longwave Radiation", "rlus");
+			put("Surface Upwelling Shortwave Radiation", "rsus");
+			put("TOA Incident Shortwave Radiation", "rsdt");
+			put("TOA Outgoing Clear-Sky Longwave Radiation", "rlutcs");
+			put("TOA Outgoing Clear-Sky Shortwave Radiation", "rsutcs");
+			put("TOA Outgoing Longwave Radiation", "rlut");
+			put("TOA Outgoing Shortwave Radiation", "rsut");
+			put("Total Cloud Fraction", "clt");
+			put("Vertical Wind Velocity", "wap");
+
+		}
+	});
 	
 	public static Result getServiceExecutionLogUrlById() {	
 		ServiceExecutionLog serviceLog = new ServiceExecutionLog();
@@ -270,91 +309,7 @@ public class ServiceExecutionLogController extends Controller {
 					return badRequest("Wrong Date Format :" + endTime);
 				}
 			}
-
-			if (variableName.equals("Air Temperature")) {
-				variableName = "ta";
-			} else if (variableName.equals("Cloud Ice Water Content")) {
-				variableName = "cli";
-			} else if (variableName.equals("Cloud Liquid Water Content")) {
-				variableName = "clw";
-			} else if (variableName.equals("Eastward Near-Surface Wind")) {
-				variableName = "uas";
-			} else if (variableName.equals("Equivalent Water Height Over Land")) {
-				variableName = "zl";
-			} else if (variableName
-					.equals("Equivalent Water Height Over Ocean")) {
-				variableName = "zo";
-			} else if (variableName.equals("Leaf Area Index")) {
-				variableName = "lai";
-			} else if (variableName.equals("Near-Surface Air Temperature")) {
-				variableName = "tas";
-			} else if (variableName.equals("Near-Surface Relative Humidity")) {
-				variableName = "hurs";
-			} else if (variableName.equals("Near-Surface Wind Speed")) {
-				variableName = "sfcWind";
-			} else if (variableName.equals("Northward Near-Surface Wind")) {
-				variableName = "vas";
-			} else if (variableName
-					.equals("Ocean Heat Content Anomaly within 2000 m Depth")) {
-				variableName = "ohc2000";
-			} else if (variableName
-					.equals("Ocean Heat Content Anomaly within 700 m Depth")) {
-				variableName = "ohc700";
-			} else if (variableName.equals("Ocean Salinity")) {
-				variableName = "os";
-			} else if (variableName.equals("Ocean Temperature")) {
-				variableName = "ot";
-			} else if (variableName.equals("Precipitation Flux")) {
-				variableName = "pr";
-			} else if (variableName.equals("Relative Humidity")) {
-				variableName = "hur";
-			} else if (variableName.equals("Sea Surface Height")) {
-				variableName = "zos";
-			} else if (variableName.equals("Sea Surface Temperature")) {
-				variableName = "tos";
-			} else if (variableName.equals("Specific Humidity")) {
-				variableName = "hus";
-			} else if (variableName
-					.equals("Surface Downwelling Clear-Sky Longwave Radiation")) {
-				variableName = "rldscs";
-			} else if (variableName
-					.equals("Surface Downwelling Clear-Sky Shortwave Radiation")) {
-				variableName = "rsdscs";
-			} else if (variableName
-					.equals("Surface Downwelling Longwave Radiation")) {
-				variableName = "rlds";
-			} else if (variableName
-					.equals("Surface Downwelling Shortwave Radiation")) {
-				variableName = "rsds";
-			} else if (variableName.equals("Surface Temperature")) {
-				variableName = "ts";
-			} else if (variableName
-					.equals("Surface Upwelling Clear-Sky Shortwave Radiation")) {
-				variableName = "rsuscs";
-			} else if (variableName
-					.equals("Surface Upwelling Longwave Radiation")) {
-				variableName = "rlus";
-			} else if (variableName
-					.equals("Surface Upwelling Shortwave Radiation")) {
-				variableName = "rsus";
-			} else if (variableName.equals("TOA Incident Shortwave Radiation")) {
-				variableName = "rsdt";
-			} else if (variableName
-					.equals("TOA Outgoing Clear-Sky Longwave Radiation")) {
-				variableName = "rlutcs";
-			} else if (variableName
-					.equals("TOA Outgoing Clear-Sky Shortwave Radiation")) {
-				variableName = "rsutcs";
-			} else if (variableName.equals("TOA Outgoing Longwave Radiation")) {
-				variableName = "rlut";
-			} else if (variableName.equals("TOA Outgoing Shortwave Radiation")) {
-				variableName = "rsut";
-			} else if (variableName.equals("Total Cloud Fraction")) {
-				variableName = "clt";
-			} else if (variableName.equals("Vertical Wind Velocity")) {
-				variableName = "wap";
-			}
-
+			variableName = LOOK_UP_TABLE.get(variableName);
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 			Application.flashMsg(RESTfulCalls
