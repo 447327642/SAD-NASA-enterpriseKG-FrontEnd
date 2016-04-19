@@ -44,30 +44,45 @@ public class PublicationController extends Controller {
 			.form(Publications.class);
 	final static Form<User> userForm = Form.form(User.class);
 
-	public static Result publicationRegistration() {
-		List<Author> authorsList = new ArrayList<Author>();
-		JsonNode authorsNode = RESTfulCalls.getAPI(Constants.URL_HOST
-				+ Constants.CMU_BACKEND_PORT
-				+ Constants.GET_ALL_AUTHORS);
-		
-		// if no value is returned or error or is not json array
-		if (authorsNode == null || authorsNode.has("error")
-				|| !authorsNode.isArray()) {
-			return ok(registerAPublication.render(authorsList));
-		}
 
-		// parse the json string into object
-		for (int i = 0; i < authorsNode.size(); i++) {
-			JsonNode json = authorsNode.path(i);
-			Author oneAuthor = new Author();
-			oneAuthor.setId(json.findPath("id").asLong());
-			oneAuthor.setAuthorName(json.findPath("authorName").asText());
-			oneAuthor.setInstitute(json.findPath("institute").asText());
-			authorsList.add(oneAuthor);
-		}
-		
-		return ok(registerAPublication.render(authorsList));
+	public static Result publicationRegistration() {
+		PublicationFactory publicationFactory = new PublicationFactory();
+
+		PublicationControllerInterface publication1 = publicationFactory.getExecution("publicationRegistration");
+
+		publication1.execute();
+
+//		return ok(publicationRegistration.render(response);
+//		return ok("{\"success\":\"success\"}");
+		return redirect(routes.publicationRegistration.execute());
 	}
+
+
+
+//	public static Result publicationRegistration() {
+//		List<Author> authorsList = new ArrayList<Author>();
+//		JsonNode authorsNode = RESTfulCalls.getAPI(Constants.URL_HOST
+//				+ Constants.CMU_BACKEND_PORT
+//				+ Constants.GET_ALL_AUTHORS);
+//
+//		// if no value is returned or error or is not json array
+//		if (authorsNode == null || authorsNode.has("error")
+//				|| !authorsNode.isArray()) {
+//			return ok(registerAPublication.render(authorsList));
+//		}
+//
+//		// parse the json string into object
+//		for (int i = 0; i < authorsNode.size(); i++) {
+//			JsonNode json = authorsNode.path(i);
+//			Author oneAuthor = new Author();
+//			oneAuthor.setId(json.findPath("id").asLong());
+//			oneAuthor.setAuthorName(json.findPath("authorName").asText());
+//			oneAuthor.setInstitute(json.findPath("institute").asText());
+//			authorsList.add(oneAuthor);
+//		}
+//
+//		return ok(registerAPublication.render(authorsList));
+//	}
 	
 	public static Result showOverview() {
 		List<Publications> mostRecentlyAddedPublications = new ArrayList<Publications>();
