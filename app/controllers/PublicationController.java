@@ -58,9 +58,9 @@ public class PublicationController extends Controller {
 
 		publication1.execute();
 
-//		return ok(publicationRegistration.render(response);
-//		return ok("{\"success\":\"success\"}");
-		return redirect(routes.publicationRegistration.execute());
+		return ok(publicationRegistration.render(response);
+		// return ok("{\"success\":\"success\"}");
+		// return redirect(routes.publicationRegistration.execute());
 	}
 
 
@@ -231,7 +231,7 @@ public class PublicationController extends Controller {
 				+ Constants.GET_MOST_RECENTLY_USED_PUBLICATIONS_CALL);
 
 		// if no value is returned or error or is not json array
-		if (FormatCheck.check(publicationNode)) {
+		if (FormatCheck.check(publicationsNode)) {
 			return ok(mostRecentlyUsedPublications.render(publications));
 		}
 

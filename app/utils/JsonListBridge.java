@@ -1,7 +1,7 @@
 package utils;
 
 import models.Publications;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 
 import static controllers.PublicationController.deserializeJsonToPublication;
