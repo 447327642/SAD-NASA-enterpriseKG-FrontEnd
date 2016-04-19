@@ -58,8 +58,8 @@ public class PublicationController extends Controller {
 
 		publication1.execute();
 
-		return ok(publicationRegistration.render(response);
-		// return ok("{\"success\":\"success\"}");
+//		return ok(publicationRegistration.render(response));
+		 return ok("{\"success\":\"success\"}");
 		// return redirect(routes.publicationRegistration.execute());
 	}
 
