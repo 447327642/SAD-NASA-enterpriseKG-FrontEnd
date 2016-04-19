@@ -19,6 +19,7 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import utils.Constants;
+import utils.JsonListBridge;
 import utils.RESTfulCalls;
 import utils.RESTfulCalls.ResponseType;
 import views.html.*;
@@ -107,20 +108,25 @@ public class PublicationController extends Controller {
 			newPublication.setAuthorList(authorListAbbr);
 			mostRecentlyAddedPublications.add(newPublication);
 		}
-		
+
+		/*
 		// parse the json string into object
 		for (int i = 0; i < mostRecentlyUsedPublicationsNode.size(); i++) {
 			JsonNode json = mostRecentlyUsedPublicationsNode.path(i);
 			Publications newPublication = deserializeJsonToPublication(json);
 			mostRecentlyUsedPublications.add(newPublication);
-		}
-		
+		}*/
+		JsonListBridge.j2l(mostRecentlyUsedPublicationsNode, mostRecentlyUsedPublications);
+
+		/*
 		// parse the json string into object
 		for (int i = 0; i < mostPopularPublicationNode.size(); i++) {
 			JsonNode json = mostPopularPublicationNode.path(i);
 			Publications newPublication = deserializeJsonToPublication(json);
 			mostPopularPublications.add(newPublication);
-		}
+		}*/
+		JsonListBridge.j2l(mostPopularPublicationNode, mostPopularPublications);
+
 		
 		// parse the json string into object
 		for (int i = 0; i < topicNode.size(); i++) {
@@ -184,12 +190,14 @@ public class PublicationController extends Controller {
 			return ok(mostRecentlyAddedPublications.render(publications));
 		}
 
+		/*
 		// parse the json string into object
 		for (int i = 0; i < publicationNode.size(); i++) {
 			JsonNode json = publicationNode.path(i);
 			Publications newPublication = deserializeJsonToPublication(json);
 			publications.add(newPublication);
-		}
+		}*/
+		JsonListBridge.j2l(publicationNode, publications);
 
 		return ok(mostRecentlyAddedPublications.render(publications));
 	}
@@ -207,12 +215,15 @@ public class PublicationController extends Controller {
 			return ok(mostRecentlyUsedPublications.render(publications));
 		}
 
+		/*
 		// parse the json string into object
 		for (int i = 0; i < publicationsNode.size(); i++) {
 			JsonNode json = publicationsNode.path(i);
 			Publications newPublication = deserializeJsonToPublication(json);
 			publications.add(newPublication);
-		}
+		}*/
+		JsonListBridge.j2l(publicationsNode, publications);
+
 
 		return ok(mostRecentlyUsedPublications.render(publications));
 	}
@@ -230,12 +241,14 @@ public class PublicationController extends Controller {
 			return ok(mostPopularPublications.render(publications));
 		}
 
+		/*
 		// parse the json string into object
 		for (int i = 0; i < publicationNode.size(); i++) {
 			JsonNode json = publicationNode.path(i);
 			Publications newPublication = deserializeJsonToPublication(json);
 			publications.add(newPublication);
-		}
+		}*/
+		JsonListBridge.j2l(publicationNode, publications);
 
 		return ok(mostPopularPublications.render(publications));
 	}
