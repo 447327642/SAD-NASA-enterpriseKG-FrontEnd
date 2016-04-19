@@ -7,13 +7,16 @@ import javax.persistence.Id;
 
 import play.data.validation.Constraints;
 
+import java.util.*;
+
 @Entity
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-
+	private ArrayList<String> it;
+	private Iterator<Map.Entry<String,String>> res;
 	private String userName;
 	@Constraints.Required
 	private String password;
@@ -32,9 +35,33 @@ public class User {
 	private String researchFields;
 	private String highestDegree;
 
+    private HashMap<String, String> Attributes = new HashMap<>();
+
 	// @OneToMany(mappedBy = "user", cascade={CascadeType.ALL})
 	// private Set<ClimateService> climateServices = new
 	// HashSet<ClimateService>();
+
+
+	public ArrayList<String> getIt() {
+		return it;
+	}
+
+    public Iterator<Map.Entry<String, String>> getIterator() {
+        return res;
+    }
+
+    public void UserAttributeIterator() {
+
+
+	}
+
+	public String next() {
+		return res.next().getValue();
+	}
+
+	public Boolean hasNext() {
+		return res.hasNext();
+	}
 
 	public User() {
 	}
@@ -45,19 +72,26 @@ public class User {
 			String phoneNumber, String faxNumber, String researchFields,
 			String highestDegree) {
 		super();
-		this.userName = userName;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.middleInitial = middleInitial;
-		this.affiliation = affiliation;
-		this.title = title;
-		this.email = email;
-		this.mailingAddress = mailingAddress;
-		this.phoneNumber = phoneNumber;
-		this.faxNumber = faxNumber;
-		this.researchFields = researchFields;
-		this.highestDegree = highestDegree;
+		String[] passInValues = { userName,  password,  firstName,
+				lastName,  middleInitial,  affiliation,
+				title,  email,  mailingAddress,
+				phoneNumber,  faxNumber,  researchFields,
+				highestDegree};
+        String[] mapKeys = { "userName",  "password",  "firstName",
+                "lastName",  "middleInitial",  "affiliation",
+                "title",  "email",  "mailingAddress",
+                "phoneNumber",  "faxNumber",  "researchFields",
+                "highestDegree"};
+		ArrayList<String> passIns = new ArrayList<String>(Arrays.asList(passInValues));
+        ArrayList<String> passInKey = new ArrayList<String>(Arrays.asList(mapKeys));
+
+        Iterator<String> inIterator = passIns.iterator();
+        Iterator<String> keyit = passInKey.iterator();
+
+        while (inIterator.hasNext()&& keyit.hasNext()) {
+            Attributes.put(keyit.next(),inIterator.next());
+		}
+
 	}
 
 	public long getId() {
