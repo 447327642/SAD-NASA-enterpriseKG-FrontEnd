@@ -36,6 +36,7 @@ import models.PublicationTopicKeyword;
 import models.Publications;
 import models.User;
 
+import utils.FormatCheck;
 
 public class PublicationController extends Controller {
 
@@ -185,8 +186,7 @@ public class PublicationController extends Controller {
 				+ Constants.GET_MOST_RECENTLY_ADDED_PUBLICATIONS_CALL);
 
 		// if no value is returned or error or is not json array
-		if (publicationNode == null || publicationNode.has("error")
-				|| !publicationNode.isArray()) {
+		if (FormatCheck.check(publicationNode)) {
 			return ok(mostRecentlyAddedPublications.render(publications));
 		}
 
@@ -210,8 +210,7 @@ public class PublicationController extends Controller {
 				+ Constants.GET_MOST_RECENTLY_USED_PUBLICATIONS_CALL);
 
 		// if no value is returned or error or is not json array
-		if (publicationsNode == null || publicationsNode.has("error")
-				|| !publicationsNode.isArray()) {
+		if (FormatCheck.check(publicationNode)) {
 			return ok(mostRecentlyUsedPublications.render(publications));
 		}
 
@@ -236,8 +235,7 @@ public class PublicationController extends Controller {
 				+ Constants.GET_MOST_POPULAR_PUBLICATIONS_CALL);
 
 		// if no value is returned or error or is not json array
-		if (publicationNode == null || publicationNode.has("error")
-				|| !publicationNode.isArray()) {
+		if (FormatCheck.check(publicationNode)) {
 			return ok(mostPopularPublications.render(publications));
 		}
 
@@ -387,8 +385,7 @@ public class PublicationController extends Controller {
 				+ Constants.GET_PUBLICATION_METADATA_BY_PUBLICATION_ID + publicationId);
 
 		// if no value is returned or error or is not json array
-		if (publicationNode == null || publicationNode.has("error")
-				|| !publicationNode.isArray()) {
+		if (FormatCheck.check(publicationNode)) {
 			return ok(publicationMetadata.render(publicationMetadataList));
 		}
 
@@ -410,8 +407,7 @@ public class PublicationController extends Controller {
 				+ Constants.GET_ALL_PUBLICATIONS_BY_TOPIC_ID + topicId);
 
 		// if no value is returned or error or is not json array
-		if (publicationsNode == null || publicationsNode.has("error")
-				|| !publicationsNode.isArray()) {
+		if (FormatCheck.check(publicationsNode)) {
 			return ok(allPublications.render(publications, publicationForm));
 		}
 
@@ -435,8 +431,7 @@ public class PublicationController extends Controller {
 				+ Constants.GET_ALL_PUBLICATION_TOPICS);
 
 		// if no value is returned or error or is not json array
-		if (topicNode == null || topicNode.has("error")
-				|| !topicNode.isArray()) {
+		if (FormatCheck.check(topicNode)) {
 			return ok(allPublicationTopics.render(topics));
 		}
 
@@ -461,8 +456,7 @@ public class PublicationController extends Controller {
 				+ Constants.GET_ALL_PUBLICATION_TOPICS);
 
 		// if no value is returned or error or is not json array
-		if (topicNode == null || topicNode.has("error")
-				|| !topicNode.isArray()) {
+		if (FormatCheck.check(topicNode)) {
 			return ok(allPublicationTopics.render(topics));
 		}
 
