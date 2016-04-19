@@ -37,13 +37,19 @@ import models.Publications;
 import models.User;
 
 import utils.FormatCheck;
-
+@Singleton
 public class PublicationController extends Controller {
 
 	final static Form<Publications> publicationForm = Form
 			.form(Publications.class);
 	final static Form<User> userForm = Form.form(User.class);
 
+	//Singleton
+	private static PublicationController publicationController = new PublicationController();
+	private PublicationController() {}
+	public static PublicationController getInstance() {
+		return publicationController;
+	}
 
 	public static Result publicationRegistration() {
 		PublicationFactory publicationFactory = new PublicationFactory();
