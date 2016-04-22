@@ -39,6 +39,7 @@ import play.mvc.Result;
 import utils.Constants;
 import utils.RESTfulCalls;
 import utils.RESTfulCalls.ResponseType;
+import utils.ClimateServiceImage;
 import views.html.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -693,7 +694,16 @@ public class ClimateServiceController extends Controller {
 		oneService.setScenario(json.path("scenario").asText());
 		oneService.setVersionNo(json.path("versionNo").asText());
 		oneService.setRootServiceId(json.path("rootServiceId").asLong());
-		oneService.setImageURL();
+		String imageUrl = "";
+		if (ClimateServiceImage.checkExist(json)) 
+			imageUrl = json.path("imageUrl").asText();
+		else if (ClimateServiceImage.checkScatterPlot(json))
+			imageUrl = "/assets/images/ScatterPlot.png";
+		else if (ClimateServiceImage.checkTwoDimSlice3D(json))
+			imageUrl = "/assets/images/TwoDimSlice3D.jpeg";
+		else
+			imageUrl = "http://upload.wikimedia.org/wikipedia/commons/3/33/White_square_with_question_mark.png";
+		oneService.setImageURL(imageUrl);
 
 		return oneService;
 	}
