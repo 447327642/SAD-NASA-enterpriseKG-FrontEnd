@@ -13,6 +13,7 @@ import play.mvc.Result;
 import utils.Constants;
 import utils.RESTfulCalls;
 import utils.RESTfulCalls.ResponseType;
+import utils.ServiceLogFactory;
 import views.html.searchServiceLog;
 import views.html.searchServiceLogResult;
 import views.html.serviceDetail;
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ServiceExecutionLogController extends Controller {
+	final static ServiceLogFactory factory = new ServiceLogFactory();
 	
 	final static Form<ServiceExecutionLog> serviceLogForm = Form
 			.form(ServiceExecutionLog.class);
@@ -70,7 +72,7 @@ public class ServiceExecutionLogController extends Controller {
 	});
 	
 	public static Result getServiceExecutionLogUrlById() {	
-		ServiceExecutionLog serviceLog = new ServiceExecutionLog();
+		ServiceExecutionLog serviceLog = factory.makeServiceLog();
 		String serviceName = null;
 		String purpose = "";
 		String url = "?";
@@ -135,7 +137,7 @@ public class ServiceExecutionLogController extends Controller {
 	public static Result getConfigurationByConfId() {
 		
 		List<ServiceConfigurationItem> serviceConfigItemList = new ArrayList<ServiceConfigurationItem>();	
-		ServiceExecutionLog serviceLog = new ServiceExecutionLog();
+		ServiceExecutionLog serviceLog = factory.makeServiceLog();
 		String serviceName = null;
 		
 		try {
@@ -386,7 +388,7 @@ public class ServiceExecutionLogController extends Controller {
 	}
 	
 	private static ServiceExecutionLog deserializeJsonToServiceLog(JsonNode json) {
-		ServiceExecutionLog newServiceLog = new ServiceExecutionLog();
+		ServiceExecutionLog newServiceLog = factory.makeServiceLog();
 		newServiceLog.setId(json.get("id").asLong());
 		newServiceLog.setServiceId(json.get("climateService").get("id").asLong());
 		String serviceName = json.get("climateService").get("name").asText();

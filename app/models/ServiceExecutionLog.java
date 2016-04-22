@@ -1,6 +1,6 @@
 package models;
 
-public class ServiceExecutionLog {
+public class ServiceExecutionLog implements Cloneable{
 
 	private long id;
 	private long serviceId;
@@ -139,5 +139,15 @@ public class ServiceExecutionLog {
 				+ ", executionEndTime=" + executionEndTime + ", plotUrl="
 				+ plotUrl + ", dataUrl=" + dataUrl + ", url=" + url 
 				+ "]";
+	}
+
+	public Object clone() {
+		Object object = null;
+		try {
+			object = super.clone();
+		} catch (CloneNotSupportedException exception) {
+			System.err.println("AbstractSpoon is not Cloneable");
+		}
+		return object;
 	}
 }
