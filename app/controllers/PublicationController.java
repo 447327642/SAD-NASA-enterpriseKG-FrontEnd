@@ -37,6 +37,7 @@ import models.Publications;
 import models.User;
 import javax.inject.Singleton;
 import utils.FormatCheck;
+import utils.NodeConstructor;
 @Singleton
 public class PublicationController extends Controller {
 
@@ -165,9 +166,7 @@ public class PublicationController extends Controller {
 	
 	public static Result showAllPublications() {
 		List<Publications> publicationList = new ArrayList<Publications>();
-		JsonNode publicationNode = RESTfulCalls.getAPI(Constants.URL_HOST
-				+ Constants.CMU_BACKEND_PORT
-				+ Constants.GET_ALL_PUBLICATIONS);
+		JsonNode publicationNode = NodeConstructor.ConstructJsonNodebyGet(Constants.GET_ALL_PUBLICATIONS);
 		// if no value is returned or error or is not json array
 		if (publicationNode == null || publicationNode.has("error")
 				|| !publicationNode.isArray()) {
@@ -202,9 +201,7 @@ public class PublicationController extends Controller {
 	// Xingyu Chen added
 	public static Result mostRecentlyAddedPublications() {
 		List<Publications> publications = new ArrayList<Publications>();
-		JsonNode publicationNode = RESTfulCalls.getAPI(Constants.URL_HOST
-				+ Constants.CMU_BACKEND_PORT
-				+ Constants.GET_MOST_RECENTLY_ADDED_PUBLICATIONS_CALL);
+		JsonNode publicationNode =  NodeConstructor.ConstructJsonNodebyGet(Constants.GET_MOST_RECENTLY_ADDED_PUBLICATIONS_CALL);
 
 		// if no value is returned or error or is not json array
 		if (FormatCheck.check(publicationNode)) {
@@ -226,9 +223,7 @@ public class PublicationController extends Controller {
 	public static Result mostRecentlyUsedPublications() {
 		List<Publications> publications = new ArrayList<>();
 
-		JsonNode publicationsNode = RESTfulCalls.getAPI(Constants.URL_HOST
-				+ Constants.CMU_BACKEND_PORT
-				+ Constants.GET_MOST_RECENTLY_USED_PUBLICATIONS_CALL);
+		JsonNode publicationsNode = NodeConstructor.ConstructJsonNodebyGet(Constants.GET_MOST_RECENTLY_USED_PUBLICATIONS_CALL);
 
 		// if no value is returned or error or is not json array
 		if (FormatCheck.check(publicationsNode)) {
@@ -251,9 +246,7 @@ public class PublicationController extends Controller {
 	// Xingyu Chen added
 	public static Result mostPopularPublications() {
 		List<Publications> publications = new ArrayList<Publications>();
-		JsonNode publicationNode = RESTfulCalls.getAPI(Constants.URL_HOST
-				+ Constants.CMU_BACKEND_PORT
-				+ Constants.GET_MOST_POPULAR_PUBLICATIONS_CALL);
+		JsonNode publicationNode = NodeConstructor.ConstructJsonNodebyGet(Constants.GET_MOST_POPULAR_PUBLICATIONS_CALL);
 
 		// if no value is returned or error or is not json array
 		if (FormatCheck.check(publicationNode)) {
@@ -332,7 +325,7 @@ public class PublicationController extends Controller {
 			Application.flashMsg(RESTfulCalls
 					.createResponse(ResponseType.UNKNOWN));
 		}
-    	List<Author> authorsList = new ArrayList<Author>();
+    	List<Author> authorsList = new ArrayList<>();
 		return ok(registerAPublication.render(authorsList));
     }
     
@@ -401,9 +394,7 @@ public class PublicationController extends Controller {
  	
  	public static Result showPublicationMetadata(int publicationId) {
 		List<PublicationFigure> publicationMetadataList = new ArrayList<PublicationFigure>();
-		JsonNode publicationNode = RESTfulCalls.getAPI(Constants.URL_HOST
-				+ Constants.CMU_BACKEND_PORT
-				+ Constants.GET_PUBLICATION_METADATA_BY_PUBLICATION_ID + publicationId);
+		JsonNode publicationNode = NodeConstructor.ConstructJsonNodebyGet(Constants.GET_PUBLICATION_METADATA_BY_PUBLICATION_ID + publicationId);
 
 		// if no value is returned or error or is not json array
 		if (FormatCheck.check(publicationNode)) {
@@ -423,9 +414,7 @@ public class PublicationController extends Controller {
  	public static Result showPublicationsByTopicId(int topicId) {
  		List<Publications> publications = new ArrayList<>();
 
-		JsonNode publicationsNode = RESTfulCalls.getAPI(Constants.URL_HOST
-				+ Constants.CMU_BACKEND_PORT
-				+ Constants.GET_ALL_PUBLICATIONS_BY_TOPIC_ID + topicId);
+		JsonNode publicationsNode = NodeConstructor.ConstructJsonNodebyGet(Constants.GET_ALL_PUBLICATIONS_BY_TOPIC_ID + topicId);
 
 		// if no value is returned or error or is not json array
 		if (FormatCheck.check(publicationsNode)) {
@@ -447,9 +436,7 @@ public class PublicationController extends Controller {
  	
  	public static Result showAllPublicationTopics() {
  		List<PublicationTopic> topics = new ArrayList<PublicationTopic>();
-		JsonNode topicNode = RESTfulCalls.getAPI(Constants.URL_HOST
-				+ Constants.CMU_BACKEND_PORT
-				+ Constants.GET_ALL_PUBLICATION_TOPICS);
+		JsonNode topicNode = NodeConstructor.ConstructJsonNodebyGet(Constants.GET_ALL_PUBLICATION_TOPICS);
 
 		// if no value is returned or error or is not json array
 		if (FormatCheck.check(topicNode)) {
@@ -472,9 +459,7 @@ public class PublicationController extends Controller {
  	// TODO: to be modified
  	public static Result showAllPublicationTopicKeywords() {
  		List<PublicationTopic> topics = new ArrayList<PublicationTopic>();
-		JsonNode topicNode = RESTfulCalls.getAPI(Constants.URL_HOST
-				+ Constants.CMU_BACKEND_PORT
-				+ Constants.GET_ALL_PUBLICATION_TOPICS);
+		JsonNode topicNode = NodeConstructor.ConstructJsonNodebyGet(Constants.GET_ALL_PUBLICATION_TOPICS);
 
 		// if no value is returned or error or is not json array
 		if (FormatCheck.check(topicNode)) {
