@@ -53,6 +53,8 @@ public class PublicationController extends Controller {
 	}
 
 	public static Result publicationRegistration() {
+		AbstractFactory publicationFactoryInterface = FactoryProducer.getFactory("PublicationControllerInterface");
+		
 		PublicationFactory publicationFactory = new PublicationFactory();
 
 		PublicationControllerInterface publication1 = publicationFactory.getExecution("publicationRegistration");

@@ -8,3 +8,4 @@ import play.mvc.Result;
 public interface PublicationControllerInterface {
     Result execute();
 }
+
