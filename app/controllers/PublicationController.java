@@ -38,13 +38,19 @@ import models.User;
 import javax.inject.Singleton;
 import utils.FormatCheck;
 import utils.NodeConstructor;
+
+import utils.RESTfulContext;
+import utils.RESTfulGet;
+import utils.RESTfulPost;
 @Singleton
 public class PublicationController extends Controller {
 
 	final static Form<Publications> publicationForm = Form
 			.form(Publications.class);
 	final static Form<User> userForm = Form.form(User.class);
-
+	//Strategy
+	static RESTfulContext getAPIContext = new RESTfulContext(new RESTfulGet());
+	static RESTfulContext postAPIContext = new RESTfulContext(new RESTfulPost());
 	//Singleton
 	private static PublicationController publicationController = new PublicationController();
 	private PublicationController() {}
@@ -168,7 +174,13 @@ public class PublicationController extends Controller {
 	
 	public static Result showAllPublications() {
 		List<Publications> publicationList = new ArrayList<Publications>();
-		JsonNode publicationNode = NodeConstructor.ConstructJsonNodebyGet(Constants.GET_ALL_PUBLICATIONS);
+		//Facade by Shenggu
+		//JsonNode publicationNode = NodeConstructor.ConstructJsonNodebyGet(Constants.GET_ALL_PUBLICATIONS);
+
+		//Strategy by Haoyun
+		JsonNode publicationNode = getAPIContext.executeStrategy(Constants.URL_HOST
+				+ Constants.CMU_BACKEND_PORT
+				+ Constants.GET_ALL_PUBLICATIONS, null);
 		// if no value is returned or error or is not json array
 		if (publicationNode == null || publicationNode.has("error")
 				|| !publicationNode.isArray()) {
@@ -381,7 +393,11 @@ public class PublicationController extends Controller {
  		queryJson.put("publicationChannel", publicationChannel);
  		queryJson.put("year", year);
 
- 		JsonNode publicationNode = RESTfulCalls.postAPI(Constants.URL_HOST
+ 		// JsonNode publicationNode = RESTfulCalls.postAPI(Constants.URL_HOST
+ 		// 		+ Constants.CMU_BACKEND_PORT + Constants.QUERY_PUBLICATION, queryJson);
+
+ 		//Strategy by Haoyun
+ 		JsonNode publicationNode = postAPIContext.executeStrategy(Constants.URL_HOST
  				+ Constants.CMU_BACKEND_PORT + Constants.QUERY_PUBLICATION, queryJson);
  		// parse the json string into object
  		for (int i = 0; i < publicationNode.size(); i++) {
