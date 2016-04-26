@@ -496,16 +496,14 @@ public class PublicationController extends Controller {
  	public static Result showPublicationPanel(int publicationId) {
  		
  		List<PublicationFigure> publicationMetadataList = new ArrayList<PublicationFigure>();
+		List<JsonNode> jsonNodes = new ArrayList<>();
+		List<RestFulTask> restFulTasks = new ArrayList<>();
+		restFulTasks.add(new RequestForMetadata(publicationId));
+		restFulTasks.add(new RequestForPanelList(publicationId));
 
-
-		JsonNode publicationMetadataNode = RESTfulCalls.getAPI(Constants.URL_HOST
-				+ Constants.CMU_BACKEND_PORT
-				+ Constants.GET_PUBLICATION_METADATA_BY_PUBLICATION_ID + publicationId);
-
-		List<Publications> publicationPanelList = new ArrayList<Publications>();
-		JsonNode publicationPanelNode = RESTfulCalls.getAPI(Constants.URL_HOST
-				+ Constants.CMU_BACKEND_PORT
-				+ Constants.GET_PUBLICATION_PANEL_BY_PUBLICATION_ID + publicationId);
+		for (RestFulTask task: restFulTasks) {
+			jsonNodes.add(task.excute());
+		}
 		
 		List<PublicationTopicKeyword> publicationTopicKeywordList = new ArrayList<>();
 		JsonNode publicationTopicKeywordNode = RESTfulCalls.getAPI(Constants.URL_HOST
