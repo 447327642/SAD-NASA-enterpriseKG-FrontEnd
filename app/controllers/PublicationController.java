@@ -18,9 +18,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import utils.Constants;
-import utils.JsonListBridge;
-import utils.RESTfulCalls;
+import utils.*;
 import utils.RESTfulCalls.ResponseType;
 import views.html.*;
 
@@ -36,12 +34,7 @@ import models.PublicationTopicKeyword;
 import models.Publications;
 import models.User;
 import javax.inject.Singleton;
-import utils.FormatCheck;
-import utils.NodeConstructor;
 
-import utils.RESTfulContext;
-import utils.RESTfulGet;
-import utils.RESTfulPost;
 @Singleton
 public class PublicationController extends Controller {
 
@@ -134,7 +127,8 @@ public class PublicationController extends Controller {
 		// parse the json string into object
 		for (int i = 0; i < mostRecentlyAddedPublicationNode.size(); i++) {
 			JsonNode json = mostRecentlyAddedPublicationNode.path(i);
-			Publications newPublication = deserializeJsonToPublication(json);
+			JsonHandler jsonHandler = new JsonHandler(new PublicationParser(), json);
+			Publications newPublication = (Publications)jsonHandler.parseToObject();
 			String authorListAbbr = abbrAuthorList(newPublication.getAuthorList());
 			newPublication.setAuthorList(authorListAbbr);
 			mostRecentlyAddedPublications.add(newPublication);
@@ -422,7 +416,8 @@ public class PublicationController extends Controller {
 		// parse the json string into object
 		for (int i = 0; i < publicationNode.size(); i++) {
 			JsonNode json = publicationNode.path(i);
-			PublicationFigure newPublicationMetadata = deserializeJsonToPublicationFigure(json);
+			JsonHandler handler = new JsonHandler(new PublicationFigureParser(), json);
+			PublicationFigure newPublicationMetadata = (PublicationFigure)handler.parseToObject();
 			publicationMetadataList.add(newPublicationMetadata);
 		}
 
