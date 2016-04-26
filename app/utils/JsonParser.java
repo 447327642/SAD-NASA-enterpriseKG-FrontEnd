@@ -11,8 +11,6 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  */
 public interface JsonParser {
-	
-	public JsonNode toJson(Object object);
 
     public Object toObject(JsonNode json);
 }

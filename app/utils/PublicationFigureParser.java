@@ -15,12 +15,6 @@ import models.Publications;
 public class PublicationFigureParser implements JsonParser {
 
 	@Override
-	public JsonNode toJson(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public PublicationFigure toObject(JsonNode json) {
 		PublicationFigure publicationMetadata = new PublicationFigure();
 		publicationMetadata.setId(json.path("id").asLong());

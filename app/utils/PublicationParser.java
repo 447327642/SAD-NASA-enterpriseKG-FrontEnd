@@ -15,12 +15,6 @@ import models.Publications;
 public class PublicationParser implements JsonParser {
 
 	@Override
-	public JsonNode toJson(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Publications toObject(JsonNode json) {
 		Publications onePublication = new Publications();
 		onePublication.setId(json.path("id").asLong());
